@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @SpringBootApplication
 public class Launch implements CommandLineRunner {
@@ -32,7 +33,7 @@ public class Launch implements CommandLineRunner {
     @Autowired
     private RestTemplate restTemplate;
 
-    private Team team = Team.BLUE;
+    private Team team = Team.ORANGE;
 
 
     public static void main(String[] args) {
@@ -60,11 +61,15 @@ public class Launch implements CommandLineRunner {
                 .collect(Collectors.toList());
 
         List<CarScoreView> carScores = evaluate(cars);
-
+        // selection
+        // croisement
+        // elitisme
         CarScoreView champion = carScores.stream()
                 .max((carScore1, carScore2) -> Float.compare(carScore1.score, carScore2.score))
                 .get();
 
+        final Stream<CarScoreView> tenMostScoredCar = carScores.stream().sorted((carScore1, carScore2) -> Float.compare(carScore1.score, carScore2.score))
+                .limit(10);
         LOGGER.info("Mon champion est {}", champion);
     }
 
